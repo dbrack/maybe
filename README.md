@@ -19,4 +19,4 @@ The `examples/` directory contains some usage examples. However, most useful is 
 5. [Pattern Matching with TypeScript](https://github.com/swissmanu/pattern-matching-with-typescript)
 
 ## Credits
-❤ Thanks to my advisor [@swissmanu](https://github.com/swissmanu) for helping me better understand and appreciate this topic.
+❤ Thanks to my advisor, [@swissmanu](https://github.com/swissmanu), for helping me better understand and appreciate this topic.
