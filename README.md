@@ -17,3 +17,6 @@ The `examples/` directory contains some usage examples. However, most useful is 
 3. [JavaScript Monads Made Simple](https://medium.com/javascript-scene/javascript-monads-made-simple-7856be57bfe8)
 4. [Fantasy Land Specification (Algebraic JavaScript Specification)](https://github.com/fantasyland/fantasy-land)
 5. [Pattern Matching with TypeScript](https://github.com/swissmanu/pattern-matching-with-typescript)
+
+## Credits
+❤ Thanks to @swissmanu for helping and advesing with this topic.
