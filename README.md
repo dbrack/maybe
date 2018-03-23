@@ -16,3 +16,4 @@ The `examples/` directory contains some usage examples. However, most useful is 
 2. [Functors, Applicatives, And Monads In Pictures](http://adit.io/posts/2013-04-17-functors,_applicatives,_and_monads_in_pictures.html)
 3. [JavaScript Monads Made Simple](https://medium.com/javascript-scene/javascript-monads-made-simple-7856be57bfe8)
 4. [Fantasy Land Specification (Algebraic JavaScript Specification)](https://github.com/fantasyland/fantasy-land)
+5. [Pattern Matching with TypeScript](https://github.com/swissmanu/pattern-matching-with-typescript)
