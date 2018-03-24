@@ -4,7 +4,7 @@
   "description": "A TypeScript implementation of Haskells Maybe Monad",
   "private": true,
   "directories": {
-    "example": "src/examples"
+    "example": "examples/"
   },
   "scripts": {
     "test": "jest",
