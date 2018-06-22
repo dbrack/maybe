@@ -3,16 +3,16 @@ export interface Monad<A> {
 	bind<B>(f: (v: A) => Monad<B>): Monad<B>;
 }
 
-interface MaybePattern<A, T> {
+export interface MaybePattern<A, T> {
 	Nothing: () => T;
 	Just: (v: A) => T;
 }
 
-interface MaybeMatcher<A> {
+export interface MaybeMatcher<A> {
 	match<T>(p: MaybePattern<A, T>): T;
 }
 
-abstract class MaybeM<A> implements Monad<A>, MaybeMatcher<A> {
+export abstract class MaybeM<A> implements Monad<A>, MaybeMatcher<A> {
 	// chain together Maybes
 	public abstract bind<B>(f: (v: A) => Maybe<B>): Maybe<B>;
 
@@ -23,14 +23,14 @@ abstract class MaybeM<A> implements Monad<A>, MaybeMatcher<A> {
 	public abstract map<B>(f: (v: A) => B): Maybe<B>;
 
 	// get/unwrap the actual value out of a Maybe
-	public abstract getOrElse(valueF: () => A): A;
+	public abstract getOrElse(f: () => A): A;
 	public abstract getOrElseS(v: A): A;
 
 	public abstract orElse(o: () => Maybe<A>): Maybe<A>;
 	public abstract orElseS(o: Maybe<A>): Maybe<A>;
 }
 
-type Maybe<A> = MaybeM<A>;
+export type Maybe<A> = MaybeM<A>;
 export namespace Maybe {
 	// wrap a value inside a Maybe
 	export function unit<A>(v: A): Maybe<A> {
@@ -41,6 +41,7 @@ export namespace Maybe {
 		return new Nothing();
 	}
 
+	// returns Nothing if any of the Maybes is Nothing
 	export function all<T, R>(xs: Maybe<T>[], f: (v: T[]) => R): Maybe<R> {
 		return xs
 			.reduce(
@@ -50,15 +51,27 @@ export namespace Maybe {
 			.bind(v => unit(f(v)));
 	}
 
-	// applicative
+	// applicative, returns Nothing if either of the two Maybes is Nothing
 	// Lift two Maybe's. Use this if the two Maybe's are of different types.
-	// If all Maybe's are of the same type, use all()
+	// If all Maybe's are of the same type, use all().
 	export function liftA2<A, B, R>(
 		a: Maybe<A>,
 		b: Maybe<B>,
 		f: (a: A, b: B) => R
 	): Maybe<R> {
 		return a.bind(va => b.bind(vb => unit(f(va, vb))));
+	}
+
+	// takes a list of Maybes and returns a list of all the Just values.
+	export function catMaybes<T>(xs: Maybe<T>[]): T[] {
+		return xs.reduce(
+			(acc, m) =>
+				m.match({
+					Nothing: () => acc,
+					Just: v => [...acc, v]
+				}),
+			[]
+		);
 	}
 }
 
@@ -79,7 +92,7 @@ class Just<A> extends MaybeM<A> {
 		return this;
 	}
 
-	public getOrElse(valueF: () => A): A {
+	public getOrElse(f: () => A): A {
 		return this.value;
 	}
 
@@ -109,8 +122,8 @@ class Nothing extends MaybeM<never> {
 		return o;
 	}
 
-	public getOrElse(valueF: () => never): never {
-		return valueF();
+	public getOrElse(f: () => never): never {
+		return f();
 	}
 
 	public getOrElseS(v: never): never {
@@ -146,7 +159,7 @@ export function boolToMaybe(x: boolean): Maybe<boolean> {
 }
 
 // match2
-interface Maybe2Pattern<A, B, T> {
+export interface Maybe2Pattern<A, B, T> {
 	First: (a: A) => T;
 	Second: (b: B) => T;
 	Both: (a: A, b: B) => T;
