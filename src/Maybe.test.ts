@@ -246,6 +246,26 @@ describe('Maybe monad', () => {
 		});
 	});
 
+	describe('catMaybes()', () => {
+		it('should return a list of all Just instances if all Maybes are Justs', () => {
+			const a = Maybe.unit('a');
+			const b = Maybe.unit('b');
+			const c = Maybe.unit('c');
+			expect(Maybe.catMaybes([a, b, c])).toEqual(['a', 'b', 'c']);
+		});
+
+		it('should return a list of Justs if any of the given Maybes is Nothing', () => {
+			const vA = 'a';
+			const a = Maybe.unit(vA);
+			const vB = 'b';
+			const b = Maybe.unit(vB);
+
+			expect(Maybe.catMaybes([a, Maybe.nothing(), b, Maybe.nothing()])).toEqual(
+				[vA, vB]
+			);
+		});
+	});
+
 	describe('nothing()', () => {
 		it('should return Nothing', () => {
 			const justSpy = jest.fn();
